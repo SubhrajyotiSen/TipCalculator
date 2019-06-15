@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tipper</string>
+    <string name="amount_in_dollars">$%1$.02f</string>
+    <string name="bill_amount">Bill Amount</string>
+    <string name="tip_percentage">Tip Percentage</string>
+    <string name="calculate">Calculate</string>
+    <string name="tip_amount">Tip Amount</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="amount_per_person">Amount Per Person</string>
+    <string name="number_of_people">Number of people</string>
+    <string name="default_bill_value">$0.00</string>
+</resources>
+
