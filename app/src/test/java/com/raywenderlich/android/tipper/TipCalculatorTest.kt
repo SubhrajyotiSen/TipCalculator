@@ -28,61 +28,45 @@
  * THE SOFTWARE.
  */
 
-package com.raywenderlich.android.tipper.ui
+package com.raywenderlich.android.tipper
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.model.BillModel
 import com.raywenderlich.android.tipper.model.TipCalculator
-import kotlinx.android.synthetic.main.activity_main.*
+import junit.framework.TestCase.assertEquals
+import org.junit.Before
+import org.junit.Test
 
-class MainActivity : AppCompatActivity() {
+class TipCalculatorTest {
 
-  // declare and initialise the tip calculator
-  private val calculator = TipCalculator()
+  private lateinit var calculator: TipCalculator
 
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-
-    setInputValues()
-    setButtonClickListener()
+  @Before
+  fun setup() {
+    calculator = TipCalculator()
   }
 
-  private fun setInputValues() {
-    // set default input values
-    tip_percentage_input.setText("20")
-    number_of_people_input.setText("4")
+  @Test
+  fun testDefaultTipCalculator() {
+    val billAmount = 100.0
 
+    val finalBill = BillModel(20.0, 120.0, 30.0)
+
+    assertEquals(calculator.calculate(billAmount), finalBill)
   }
 
-  private fun setButtonClickListener() {
-    // set click listener on the Calculate Tip button
-    tip_calculator_button.setOnClickListener {
-      calculateTip()
-    }
+  @Test
+  fun testCustomTipCalculator() {
+    val billAmount = 100.0
+    val tipPercentage = 25
+    val numberOfPeople = 5
+
+    /**
+     * tipAmount = 25.0 ( 25% of 100)
+     * totalAmount = 100 + 25
+     * amountPerPerson = 125 / 5
+     */
+    val finalBill = BillModel(25.0, 125.0, 25.0)
+
+    assertEquals(calculator.calculate(billAmount, tipPercentage, numberOfPeople), finalBill)
   }
-
-  private fun calculateTip() {
-    // add code here to calculate the tip
-    val bilAmount = bill_amount_input.text.toString().toDoubleOrNull()
-    val tipPercentage = tip_percentage_input.text.toString().toIntOrNull()
-    val numberOfPeople = number_of_people_input.text.toString().toIntOrNull()
-
-    if (bilAmount != null && tipPercentage != null && numberOfPeople != null) {
-      val bill = calculator.calculate(bilAmount, tipPercentage, numberOfPeople)
-      displayBillDetails(bill)
-    }
-  }
-
-  // add the function to display calculated values.
-  private fun displayBillDetails(bill: BillModel) {
-    tip_amount.text =     application.getString(R.string.amount_in_dollars, bill.tipAmount)
-    total_amount.text = application.getString(R.string.amount_in_dollars, bill.totalAmount)
-    amount_per_person.text = application.getString(R.string.amount_in_dollars, bill.amountPerPerson)
-  }
-
 }
-
